@@ -1,0 +1,46 @@
+:root{
+  --bg:#f7f8fb;
+  --card:#fff;
+  --accent:#1257ff;
+  --muted:#6b7280;
+  --max-width:900px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:#0f172a;
+  display:flex;
+  justify-content:center;
+  padding:24px;
+}
+main{max-width:var(--max-width); width:100%}
+header{margin-bottom:18px}
+h1{margin:.25rem 0}
+p{margin:.5rem 0;color:var(--muted)}
+
+.card{
+  background:var(--card);
+  border-radius:10px;
+  padding:16px;
+  box-shadow:0 1px 4px rgba(16,24,40,0.06);
+  margin-bottom:16px;
+}
+
+.calculator{margin-bottom:8px}
+label{display:block;font-weight:600;margin-top:12px;margin-bottom:6px}
+.input-row{display:flex;gap:8px}
+.input-row input{flex:1;padding:10px;border-radius:6px;border:1px solid #e6e9ef}
+.input-row select{padding:10px;border-radius:6px;border:1px solid #e6e9ef}
+.actions{margin-top:12px;display:flex;gap:8px}
+button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer}
+button#reset{background:#e6e9ef;color:#000}
+.hidden{display:none}
+.big{font-size:1.6rem;font-weight:700;margin:6px 0}
+.hints{margin-top:8px;color:var(--muted);font-size:0.95rem}
+footer{margin-top:12px;text-align:center;color:var(--muted);font-size:0.9rem}
+@media (max-width:520px){
+  .input-row{flex-direction:column}
+}

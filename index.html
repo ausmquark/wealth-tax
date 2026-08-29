@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wealth Tax Simulator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Wealth Tax Simulator</h1>
+    <p>Estimate annual wealth taxes for different regions. Pick a model (Zurich / Mallorca), enter total personal wealth, and see the estimated annual tax (absolute and as % of wealth). Models are implemented from official sources — sources are linked in the repository.</p>
+  </header>
+
+  <main>
+    <section class="calculator">
+      <form id="tax-form" onsubmit="return false;">
+        <label for="wealth">Total personal wealth</label>
+        <div class="input-row">
+          <input id="wealth" type="number" min="0" step="0.01" value="1000000" />
+          <select id="currency">
+            <option value="EUR">EUR</option>
+            <option value="CHF">CHF</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+
+        <label for="model">Tax model / Region</label>
+        <select id="model">
+          <option value="zurich">Switzerland — Canton/City Zürich (example)</option>
+          <option value="mallorca">Spain — Balearic Islands (Mallorca, 2024)</option>
+        </select>
+
+        <div class="actions">
+          <button id="calculate">Calculate</button>
+          <button id="reset" type="button">Reset</button>
+        </div>
+      </form>
+
+      <div id="results" class="card hidden" aria-live="polite">
+        <h2>Result</h2>
+        <p id="tax-absolute" class="big"></p>
+        <p id="tax-relative"></p>
+        <div id="hints" class="hints"></div>
+      </div>
+    </section>
+
+    <section class="about card">
+      <h2>About the models</h2>
+      <p>The site includes two region-specific example models implemented from official sources (see <a href="SOURCES.md">SOURCES.md</a>). Mallorca (Balearic Islands) implements the 2024 autonomous-region exemption and bracket scale. Zurich implements the cantonal progressive tariff and applies the 2024 Staatssteuerfuss and Stadt Zürich Gemeindesteuerfuss multipliers to compute the total local tax.</p>
+      <p>These models are for illustrative calculation and were implemented from official canton/region documentation. Verify with official calculators or tax advisers for legal/financial decisions.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Repository: <a href="https://github.com/ausmquark/wealth-tax">ausmquark/wealth-tax</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
