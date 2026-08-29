@@ -3,35 +3,27 @@
 // Zurich model uses the cantonal tariff (progressive promille bands) and applies the 2024 Staatssteuerfuss and Stadt Zürich Gemeindesteuerfuss.
 
 const models = {
-  // Canton/City Zurich: values implemented from Zurich Wegleitung/tariff tables (2024).
-  // Exemption: CHF 77'000 for single taxpayers.
-  // Cantonal tariff (promille) implemented as progressive brackets; final tax = cantonalTax * staatssteuerfuss * gemeindesteuerfuss
   zurich: {
     name: "Canton/City Zürich (example)",
     currency: "CHF",
     exemption: 77000,
-    // Cantonal progressive tariff expressed as promille (‰), converted to decimal in compute function.
-    // These brackets were derived from the Zurich tariff tables (Wegleitung 2024). See SOURCES.md.
     brackets: [
-      { upTo: 80000, ratePromille: 0 },            // 0 ‰ up to 80'000
-      { upTo: 318000, ratePromille: 0.5 },        // next 238'000 at 0.5 ‰
-      { upTo: 717000, ratePromille: 1 },          // next 399'000 at 1 ‰
-      { upTo: 1353000, ratePromille: 1.5 },       // next 636'000 at 1.5 ‰
-      { upTo: 2309000, ratePromille: 2 },         // next 956'000 at 2 ‰
-      { upTo: 3262000, ratePromille: 2.5 },       // next 953'000 at 2.5 ‰
-      { upTo: null, ratePromille: 3 }             // above 3'262'000 at 3 ‰
+      { upTo: 80000, ratePromille: 0 },
+      { upTo: 318000, ratePromille: 0.5 },
+      { upTo: 717000, ratePromille: 1 },
+      { upTo: 1353000, ratePromille: 1.5 },
+      { upTo: 2309000, ratePromille: 2 },
+      { upTo: 3262000, ratePromille: 2.5 },
+      { upTo: null, ratePromille: 3 }
     ],
-    // Multipliers for 2024
-    staatssteuerfuss: 0.98,   // 98%
-    gemeindesteuerfuss: 1.19, // Stadt Zürich 119% -> 1.19
+    staatssteuerfuss: 0.98,
+    gemeindesteuerfuss: 1.19,
     note: "Cantonal progressive tariff (promille) from Zürich Wegleitung 2024. Final tax applies Staatssteuerfuss and Gemeindesteuerfuss for the municipality (example uses Stadt Zürich 119%). See SOURCES.md for references."
   },
 
-  // Balearic Islands (Mallorca) — Autonomous region scale 2024
   mallorca: {
     name: "Balearic Islands (Mallorca) — Impuesto sobre el Patrimonio (2024)",
     currency: "EUR",
-    // Autonomous-region mínimo exento (Balearic Islands, 2024)
     exemption: 3000000,
     brackets: [
       { upTo: 170472.04, rate: 0.0028 },
@@ -68,11 +60,17 @@ function computeProgressiveTax(wealth, model, isPromille=false){
   return tax;
 }
 
+function localeForLang(lang){
+  // map language to a reasonable locale for Intl formatting
+  const map = { en: 'en-US', de: 'de-CH' };
+  return map[lang] || 'en-US';
+}
+
 function formatCurrency(amount, currency){
   try{
-    return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(amount);
+    const locale = (typeof I18N !== 'undefined') ? localeForLang(I18N.current()) : 'en-US';
+    return new Intl.NumberFormat(locale, { style: "currency", currency }).format(amount);
   }catch(e){
-    // fallback
     return amount.toFixed(2) + ' ' + currency;
   }
 }
@@ -111,23 +109,24 @@ function calculate(){
   const model = models[modelKey];
 
   if (isNaN(wealthInput) || wealthInput < 0){
-    alert('Please enter a valid wealth amount (>= 0).');
+    if (typeof I18N !== 'undefined') alert(I18N.t('invalid_wealth'));
+    else alert('Please enter a valid wealth amount (>= 0).');
     return;
   }
 
-  // Note: This demo does not perform currency conversion between model currency and selected currency.
   const isPromille = modelKey === 'zurich';
   let tax = computeProgressiveTax(wealthInput, model, isPromille);
 
-  // For Zurich apply state and municipal multipliers
   if (modelKey === 'zurich'){
     tax = tax * (model.staatssteuerfuss || 1) * (model.gemeindesteuerfuss || 1);
   }
 
   const relative = wealthInput > 0 ? (tax / wealthInput) * 100 : 0;
 
-  document.getElementById('tax-absolute').textContent = formatCurrency(tax, model.currency === currency ? currency : model.currency);
-  document.getElementById('tax-relative').textContent = relative.toFixed(4) + '% of total wealth per year';
+  const displayCurrency = model.currency;
+  document.getElementById('tax-absolute').textContent = formatCurrency(tax, displayCurrency);
+  const pctText = (typeof I18N !== 'undefined') ? I18N.t('relative_format', { pct: relative.toFixed(4) }) : relative.toFixed(4) + '% of total wealth per year';
+  document.getElementById('tax-relative').textContent = pctText;
   document.getElementById('results').classList.remove('hidden');
 
   updateHints(modelKey);

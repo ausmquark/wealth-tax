@@ -3,42 +3,51 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Wealth Tax Simulator</title>
+  <title data-i18n="title">Wealth Tax Simulator</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1>Wealth Tax Simulator</h1>
-    <p>Estimate annual wealth taxes for different regions. Pick a model (Zurich / Mallorca), enter total personal wealth, and see the estimated annual tax (absolute and as % of wealth). Models are implemented from official sources — sources are linked in the repository.</p>
+    <div class="header-top">
+      <h1 data-i18n="title">Wealth Tax Simulator</h1>
+      <div class="lang">
+        <label for="lang-select" data-i18n="lang_label">Language</label>
+        <select id="lang-select" aria-label="Language">
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </div>
+    </div>
+    <p data-i18n="header_description">Estimate annual wealth taxes for different regions. Pick a model (Zurich / Mallorca), enter total personal wealth, and see the estimated annual tax (absolute and as % of wealth).</p>
   </header>
 
   <main>
     <section class="calculator">
       <form id="tax-form" onsubmit="return false;">
-        <label for="wealth">Total personal wealth</label>
+        <label for="wealth" data-i18n="label_wealth">Total personal wealth</label>
         <div class="input-row">
-          <input id="wealth" type="number" min="0" step="0.01" value="1000000" />
-          <select id="currency">
+          <input id="wealth" type="number" min="0" step="0.01" value="1000000" data-i18n-attr="placeholder:label_wealth" />
+          <select id="currency" aria-label="Currency" data-i18n-attr="aria-label:label_currency">
             <option value="EUR">EUR</option>
             <option value="CHF">CHF</option>
             <option value="USD">USD</option>
           </select>
         </div>
 
-        <label for="model">Tax model / Region</label>
+        <label for="model" data-i18n="label_model">Tax model / Region</label>
         <select id="model">
           <option value="zurich">Switzerland — Canton/City Zürich (example)</option>
           <option value="mallorca">Spain — Balearic Islands (Mallorca, 2024)</option>
         </select>
 
         <div class="actions">
-          <button id="calculate">Calculate</button>
-          <button id="reset" type="button">Reset</button>
+          <button id="calculate" data-i18n="button_calculate">Calculate</button>
+          <button id="reset" type="button" data-i18n="button_reset">Reset</button>
         </div>
       </form>
 
       <div id="results" class="card hidden" aria-live="polite">
-        <h2>Result</h2>
+        <h2 data-i18n="result_heading">Result</h2>
         <p id="tax-absolute" class="big"></p>
         <p id="tax-relative"></p>
         <div id="hints" class="hints"></div>
@@ -46,15 +55,28 @@
     </section>
 
     <section class="about card">
-      <h2>About the models</h2>
-      <p>The site includes two region-specific example models implemented from official sources (see <a href="SOURCES.md">SOURCES.md</a>). Mallorca (Balearic Islands) implements the 2024 autonomous-region exemption and bracket scale. Zurich implements the cantonal progressive tariff and applies the 2024 Staatssteuerfuss and Stadt Zürich Gemeindesteuerfuss multipliers to compute the total local tax.</p>
-      <p>These models are for illustrative calculation and were implemented from official canton/region documentation. Verify with official calculators or tax advisers for legal/financial decisions.</p>
+      <h2 data-i18n="about_models_title">About the models</h2>
+      <p data-i18n="about_models_text">The site includes two region-specific example models implemented from official sources (see SOURCES.md). Mallorca (Balearic Islands) implements the 2024 autonomous-region exemption and bracket scale. Zurich implements the cantonal progressive tariff and applies the 2024 Staatssteuerfuss and Stadt Zürich Gemeindesteuerfuss multipliers to compute the total local tax.</p>
+      <p><a href="SOURCES.md" data-i18n="sources_link_text">View sources</a></p>
     </section>
   </main>
 
   <footer>
   </footer>
 
+  <script src="i18n.js"></script>
+  <script>
+    // pre-select language using detect() (approximates Accept-Language via navigator.language)
+    const detected = I18N.detect();
+    const lang = ['en','de'].includes(detected) ? detected : 'en';
+    // set selector and load
+    document.addEventListener('DOMContentLoaded', () => {
+      const sel = document.getElementById('lang-select');
+      if (sel) sel.value = lang;
+      sel.addEventListener('change', (e) => I18N.setLang(e.target.value));
+      I18N.load(lang);
+    });
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

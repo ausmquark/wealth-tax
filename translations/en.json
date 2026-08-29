@@ -1,0 +1,16 @@
+{
+  "title": "Wealth Tax Simulator",
+  "header_description": "Estimate annual wealth taxes for different regions. Pick a model (Zurich / Mallorca), enter total personal wealth, and see the estimated annual tax (absolute and as % of wealth).",
+  "label_wealth": "Total personal wealth",
+  "label_currency": "Currency",
+  "label_model": "Tax model / Region",
+  "button_calculate": "Calculate",
+  "button_reset": "Reset",
+  "result_heading": "Result",
+  "relative_format": "{pct}% of total wealth per year",
+  "invalid_wealth": "Please enter a valid wealth amount (>= 0).",
+  "about_models_title": "About the models",
+  "about_models_text": "The site includes two region-specific example models implemented from official sources (see SOURCES.md). Mallorca implements the 2024 autonomous-region exemption and bracket scale. Zurich implements the cantonal progressive tariff and applies municipality multipliers for final tax.",
+  "sources_link_text": "View sources",
+  "lang_label": "Language"
+}

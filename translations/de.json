@@ -1,0 +1,16 @@
+{
+  "title": "Vermögenssteuer-Simulator",
+  "header_description": "Schätzen Sie jährliche Vermögenssteuern für verschiedene Regionen. Wählen Sie ein Modell (Zürich / Mallorca), geben Sie das persönliche Vermögen ein und sehen Sie die geschätzte Jahressteuer (absolut und in % des Vermögens).",
+  "label_wealth": "Gesamtvermögen",
+  "label_currency": "Währung",
+  "label_model": "Steuermodell / Region",
+  "button_calculate": "Berechnen",
+  "button_reset": "Zurücksetzen",
+  "result_heading": "Ergebnis",
+  "relative_format": "{pct}% des Gesamtvermögens pro Jahr",
+  "invalid_wealth": "Bitte geben Sie einen gültigen Vermögensbetrag ein (>= 0).",
+  "about_models_title": "Über die Modelle",
+  "about_models_text": "Die Seite enthält zwei regionsspezifische Beispielmodelle, implementiert auf Basis offizieller Quellen (siehe SOURCES.md). Mallorca implementiert den autonomen Freibetrag und die Skala 2024. Zürich verwendet den kantonalen Tarif plus Gemeindefaktor.",
+  "sources_link_text": "Quellen anzeigen",
+  "lang_label": "Sprache"
+}
