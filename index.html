@@ -8,17 +8,23 @@
 </head>
 <body>
   <header>
-    <div class="header-top">
-      <h1 data-i18n="title">Wealth Tax Simulator</h1>
-      <div class="lang">
-        <label for="lang-select" data-i18n="lang_label">Language</label>
-        <select id="lang-select" aria-label="Language">
-          <option value="en">English</option>
-          <option value="de">Deutsch</option>
-        </select>
+    <div class="header-panel card" role="region" aria-label="Introduction">
+      <div class="header-top">
+        <h1 data-i18n="title">Wealth Tax Simulator</h1>
+        <div class="lang">
+          <label for="lang-select" data-i18n="lang_label">Language</label>
+          <select id="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Fixed-size static text area (will not change layout when language changes) -->
+      <div class="header-description" data-i18n="header_description" tabindex="0">
+        Many countries levy a tax on personal net wealth. Wealth taxes target accumulated assets — such as real estate, investments, and cash — and can complement income taxes by taxing capital rather than labour. Properly designed wealth taxes (with exemptions and progressive rates) can increase progressivity and help reduce inequality. Select a region and enter your total personal wealth to estimate the annual wealth tax using that region's rules.
       </div>
     </div>
-    <p data-i18n="header_description">Many countries levy a tax on personal net wealth. Wealth taxes target accumulated assets — such as real estate, investments, and cash — and can complement income taxes by taxing capital rather than labour. Properly designed wealth taxes (with exemptions and progressive rates) can increase progressivity and help reduce inequality. Select a region and enter your total personal wealth to estimate the annual wealth tax using that region's rules.</p>
   </header>
 
   <main>
@@ -26,7 +32,7 @@
       <form id="tax-form" onsubmit="return false;">
         <label for="wealth" data-i18n="label_wealth">Total personal wealth</label>
         <div class="input-row">
-          <input id="wealth" type="number" min="0" step="0.01" value="1000000" data-i18n-attr="placeholder:label_wealth" />
+          <input id="wealth" type="text" inputmode="decimal" pattern="[0-9.,]*" minlength="1" aria-label="Total personal wealth" value="1000000" />
           <select id="currency" aria-label="Currency" data-i18n-attr="aria-label:label_currency">
             <option value="EUR">EUR</option>
             <option value="CHF">CHF</option>
