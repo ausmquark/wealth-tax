@@ -4,11 +4,14 @@
   --accent:#1257ff;
   --muted:#6b7280;
   --max-width:900px;
-  --header-min-height: auto;
+  --header-height-desktop: 9.5rem; /* adjust if you add longer translations */
+  --header-height-mobile: 12rem;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
+/* global reset */
 *{box-sizing:border-box}
+html,body{height:100%;}
 body{
   margin:0;
   background:var(--bg);
@@ -16,46 +19,76 @@ body{
   display:flex;
   justify-content:center;
   padding:24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-main{max-width:var(--max-width); width:100%}
-header{margin-bottom:18px}
-.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-h1{margin:.25rem 0}
-.header-description{margin:.5rem 0;color:var(--muted);min-height:var(--header-min-height)}
 
+/* container */
+main{max-width:var(--max-width); width:100%; min-width:0}
+
+/* Header panel and stable description area */
+.header-panel{ margin-bottom:18px; display:flex; flex-direction:column; gap:12px; }
+.header-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+h1{margin:.25rem 0; font-size:1.4rem}
+.header-description{
+  margin:0;
+  color:var(--muted);
+  line-height:1.45;
+  height:var(--header-height-desktop); /* stable height so translations don't shift layout */
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right:4px;
+}
+
+/* visually card-like */
 .card{
   background:var(--card);
   border-radius:10px;
   padding:16px;
-  box-shadow:0 1px 4px rgba(16,24,40,0.06);
+  box-shadow:0 1px 8px rgba(16,24,40,0.06);
   margin-bottom:16px;
 }
 
 .calculator{margin-bottom:8px}
 label{display:block;font-weight:600;margin-top:12px;margin-bottom:6px}
 .input-row{display:flex;gap:8px;align-items:center}
-.input-row input{flex:1;padding:12px;border-radius:6px;border:1px solid #e6e9ef;font-size:1.05rem;font-variant-numeric: tabular-nums;}
-.input-row select{padding:10px;border-radius:6px;border:1px solid #e6e9ef}
+.input-row > *{min-width:0}
+
+.input-row input{flex:1;padding:12px;border-radius:6px;border:1px solid #e6e9ef;font-size:1.05rem;font-variant-numeric:tabular-nums;}
+.input-row select{padding:10px;border-radius:6px;border:1px solid #e6e9ef;min-width:120px}
+
 .actions{margin-top:12px;display:flex;gap:8px}
-button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer}
+button{background:var(--accent);color:#fff;border:0;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:600}
 button#reset{background:#e6e9ef;color:#000}
 .hidden{display:none}
 .big{font-size:1.6rem;font-weight:700;margin:6px 0}
 .hints{margin-top:8px;color:var(--muted);font-size:0.95rem}
 footer{margin-top:12px;text-align:center;color:var(--muted);font-size:0.9rem}
 
-/* Improve mobile layout */
+/* Improve mobile layout and adjust header description height */
 @media (max-width:720px){
-  body{padding:16px}
+  body{padding:12px}
   .header-top{flex-direction:column;align-items:flex-start}
-  .input-row{flex-direction:column}
+  h1{font-size:1.25rem}
+  .header-description{height:var(--header-height-mobile)}
+
+  .input-row{flex-direction:column;align-items:stretch}
+  .input-row select{width:100%;min-width:0}
   .actions{flex-direction:column}
   .actions button{width:100%}
   .input-row input{font-size:1.2rem;padding:14px}
 }
 
-/* Small screens: keep language selector compact */
-.lang select{padding:6px;border-radius:6px}
+/* Make wealth input more readable: right-aligned, monospace & larger on mobile */
+.input-row input[type="number"],
+.input-row input[type="text"] {
+  text-align: right;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
 
-/* Make wealth input more readable */
-#wealth{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace}
+/* Accessibility helpers */
+.lang select{padding:8px;border-radius:6px}
+
+/* Prevent horizontal overflow from long words in hints or sources */
+.hints, .header-description { word-wrap:break-word; }
